@@ -228,7 +228,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jque
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ \"./src/js/router.js\");\n\n\n//# sourceURL=webpack:///./src/js/app.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ \"./src/js/router.js\");\n\n\n$(document).ready(function () {\n  Object(_router__WEBPACK_IMPORTED_MODULE_0__[\"default\"])()\n})\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\")))\n\n//# sourceURL=webpack:///./src/js/app.js?");
 
 /***/ }),
 
@@ -236,11 +236,11 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _rou
 /*!**************************!*\
   !*** ./src/js/router.js ***!
   \**************************/
-/*! no exports provided */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var crossroads__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! crossroads */ \"./node_modules/crossroads/dist/crossroads.js\");\n/* harmony import */ var crossroads__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crossroads__WEBPACK_IMPORTED_MODULE_0__);\n\n\ncrossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('/', function () {\n  console.log('Home page')\n})\n\n// En cada cambio del # va a verificar las rutas\n$(window).on('hashchange', function () {\n  crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.parse(window.location.hash)\n})\n\ncrossroads__WEBPACK_IMPORTED_MODULE_0___default.a.parse(window.location.hash)\n\ncrossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/contact', function () {\n    console.log('Contact page')\n  })\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\")))\n\n//# sourceURL=webpack:///./src/js/router.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var crossroads__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! crossroads */ \"./node_modules/crossroads/dist/crossroads.js\");\n/* harmony import */ var crossroads__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crossroads__WEBPACK_IMPORTED_MODULE_0__);\n\n\nfunction router () {\n  $(window).on('hashchange', function () {\n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.parse(window.location.hash)\n  })\n  \n\ncrossroads__WEBPACK_IMPORTED_MODULE_0___default.a.parse(window.location.hash)\n  \n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/home', function () {\n        $('#root').load('./partials/home.html');\n    })\n\n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/characters', function () {\n      $('#root').load('./partials/characters.html');\n  })\n\n  crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/favorites', function () {\n    $('#root').load('./partials/favorites.html');\n  })\n    \n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/contact', function () {\n      $('#root').load('./partials/contact.html');\n    })\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (router);\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\")))\n\n//# sourceURL=webpack:///./src/js/router.js?");
 
 /***/ }),
 
