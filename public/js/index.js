@@ -232,6 +232,54 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(f
 
 /***/ }),
 
+/***/ "./src/js/controllers/charactersController.js":
+/*!****************************************************!*\
+  !*** ./src/js/controllers/charactersController.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _utils_localStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/localStorage */ \"./src/js/utils/localStorage.js\");\n/* harmony import */ var _utils_translates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/translates */ \"./src/js/utils/translates.js\");\n/* harmony import */ var _utils_search__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/search */ \"./src/js/utils/search.js\");\n/* harmony import */ var _utils_ajax__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/ajax */ \"./src/js/utils/ajax.js\");\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nfunction peopleController () {\r\n  var peopleApiList = []\r\n\r\n  var peopleLocalList = Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_0__[\"getLocalList\"])('peopleList')\r\n\r\n  var tableBody = $('#tableBody')\r\n\r\n  var seeMoreButton = $('#seeMore')\r\n\r\n  var startUrl = 'https://swapi.co/api/people/'\r\n\r\n  searchPeople(startUrl)\r\n\r\n  function searchPeople (url) {\r\n    Object(_utils_ajax__WEBPACK_IMPORTED_MODULE_3__[\"getData\"])(url, function (error, data) {\r\n      if (data.results) {\r\n        appendPeople(data.results)\r\n        peopleApiList = peopleApiList.concat(data.results)\r\n      }\r\n\r\n      if (!error && data) {\r\n        seeMoreButton.one('click', function () {\r\n          searchPeople(data.next)\r\n        })\r\n      } else {\r\n        seeMoreButton.parent().remove()\r\n      }\r\n    })\r\n  }\r\n\r\n  function appendPeople (peopleList) {\r\n    var person\r\n\r\n    for (var i = 0; i < peopleList.length; i++) {\r\n      person = peopleList[i]\r\n\r\n      var order = person.url.split('/')[5]\r\n\r\n      tableBody.append(\r\n        '<tr id=\"' +\r\n          order +\r\n          '\"><th scope=\"row\" >' +\r\n          order +\r\n          '</th><td>' +\r\n          person.name +\r\n          '</td><td>' +\r\n          Object(_utils_translates__WEBPACK_IMPORTED_MODULE_1__[\"genderTranslate\"])(person.gender) +\r\n          '</td><td>' +\r\n          person.height +\r\n          ' cm</td><td>' +\r\n          person.mass +\r\n          ' kg</td><td>' +\r\n          Object(_utils_translates__WEBPACK_IMPORTED_MODULE_1__[\"eyeColorTranslate\"])(person.eye_color) +\r\n          '</td><td><button type=\"button\" class=\"btn btn-success\">Guardar</button></td></tr>'\r\n      )\r\n\r\n      $('#' + order).click(function () {\r\n        var rowNode = $(this)\r\n\r\n        var id = rowNode.attr('id')\r\n\r\n        var indexLocal = Object(_utils_search__WEBPACK_IMPORTED_MODULE_2__[\"searchPeopleIndexByUrl\"])(\r\n          'https://swapi.co/api/people/' + id + '/',\r\n          peopleLocalList\r\n        )\r\n\r\n        if (indexLocal === -1) {\r\n          var indexApi = Object(_utils_search__WEBPACK_IMPORTED_MODULE_2__[\"searchPeopleIndexByUrl\"])(\r\n            'https://swapi.co/api/people/' + id + '/',\r\n            peopleApiList\r\n          )\r\n\r\n          peopleLocalList.push(peopleApiList[indexApi])\r\n\r\n          Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_0__[\"setLocalList\"])('peopleList', peopleLocalList)\r\n\r\n          rowNode.remove()\r\n        }\r\n      })\r\n    }\r\n  }\r\n}\r\n\r\n/* harmony default export */ __webpack_exports__[\"default\"] = (peopleController);\r\n\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\")))\n\n//# sourceURL=webpack:///./src/js/controllers/charactersController.js?");
+
+/***/ }),
+
+/***/ "./src/js/controllers/contactController.js":
+/*!*************************************************!*\
+  !*** ./src/js/controllers/contactController.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _utils_ajax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/ajax */ \"./src/js/utils/ajax.js\");\n\r\n\r\nfunction contactController () {\r\n  var firstNameInputNode = $('#firstName')\r\n  var emailInputNode = $('#email')\r\n  var commentsInputNode = $('#comments')\r\n  var submitButtonNode = $('#submitButton')\r\n\r\n  firstNameInputNode.one('blur', validateEmtpyField)\r\n\r\n  emailInputNode.one('blur', validateEmailField)\r\n\r\n  commentsInputNode.one('blur', validateEmtpyField)\r\n\r\n  function validateEmtpyField (event) {\r\n    var inputNode = $(this)\r\n\r\n    var errorText = ''\r\n    inputNode.next().remove()\r\n\r\n    if (!inputNode.val()) {\r\n      errorText = 'Campo requerido'\r\n    }\r\n\r\n    if (errorText) {\r\n      inputNode.addClass('is-invalid')\r\n      inputNode.removeClass('is-valid')\r\n\r\n      var parentNode = inputNode.parent()\r\n\r\n      parentNode.append('<div class=\"invalid-feedback\">' + errorText + '</div>')\r\n    } else {\r\n      inputNode.addClass('is-valid')\r\n      inputNode.removeClass('is-invalid')\r\n    }\r\n\r\n    if (event.type === 'blur') {\r\n      inputNode.on('input', validateEmtpyField)\r\n    }\r\n\r\n    validateButton()\r\n  }\r\n\r\n  function validateEmailField (event) {\r\n    var inputNode = $(this)\r\n\r\n    var errorText = ''\r\n\r\n    inputNode.next().remove()\r\n\r\n    var value = inputNode.val()\r\n\r\n    if (!value) {\r\n      errorText = errorText + 'Campo requerido '\r\n    } else {\r\n      if (value.indexOf('@') === -1) {\r\n        errorText = errorText + 'Debe contener arroba (@) '\r\n      }\r\n      if (value.indexOf('.') === -1) {\r\n        errorText = errorText + 'Debe contener punto (.) '\r\n      }\r\n    }\r\n\r\n    if (errorText) {\r\n      inputNode.addClass('is-invalid')\r\n      inputNode.removeClass('is-valid')\r\n\r\n      var parentNode = inputNode.parent()\r\n\r\n      parentNode.append('<div class=\"invalid-feedback\">' + errorText + '</div>')\r\n    } else {\r\n      inputNode.addClass('is-valid')\r\n      inputNode.removeClass('is-invalid')\r\n    }\r\n\r\n    if (event.type === 'blur') {\r\n      inputNode.on('input', validateEmailField)\r\n    }\r\n\r\n    validateButton()\r\n  }\r\n\r\n  submitButtonNode.click(function () {\r\n    var firstName = firstNameInputNode.val()\r\n    var email = emailInputNode.val()\r\n    var comments = commentsInputNode.val()\r\n\r\n    var data = {\r\n      firstName: firstName,\r\n      email: email,\r\n      comments: comments\r\n    }\r\n\r\n    Object(_utils_ajax__WEBPACK_IMPORTED_MODULE_0__[\"postData\"])('./simpleEmail.php', data, function (error, data) {\r\n      if (!error) {\r\n        window.location.hash = '#/contact/greetings'\r\n      }\r\n    })\r\n  })\r\n\r\n  function validateButton () {\r\n    var validInputNodes = $('.is-valid')\r\n\r\n    if (validInputNodes.length === 3) {\r\n      submitButtonNode.attr('disabled', false)\r\n    } else {\r\n      submitButtonNode.attr('disabled', true)\r\n    }\r\n  }\r\n}\r\n\r\n/* harmony default export */ __webpack_exports__[\"default\"] = (contactController);\r\n\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\")))\n\n//# sourceURL=webpack:///./src/js/controllers/contactController.js?");
+
+/***/ }),
+
+/***/ "./src/js/controllers/favoritesController.js":
+/*!***************************************************!*\
+  !*** ./src/js/controllers/favoritesController.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _utils_localStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/localStorage */ \"./src/js/utils/localStorage.js\");\n/* harmony import */ var _utils_translates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/translates */ \"./src/js/utils/translates.js\");\n/* harmony import */ var _utils_search__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/search */ \"./src/js/utils/search.js\");\n\r\n\r\n\r\n\r\n\r\n\r\nfunction localStorageController () {\r\n  var peopleList = Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_0__[\"getLocalList\"])('peopleList')\r\n\r\n  var tableBody = $('#tableBody')\r\n\r\n  for (var i = 0; i < peopleList.length; i++) {\r\n    var person = peopleList[i]\r\n\r\n    tableBody.append(\r\n      '<tr id=\"' +\r\n        person.url +\r\n        '\"><th scope=\"row\" >' +\r\n        (i + 1) +\r\n        '</th><td>' +\r\n        person.name +\r\n        '</td><td>' +\r\n        Object(_utils_translates__WEBPACK_IMPORTED_MODULE_1__[\"genderTranslate\"])(person.gender) +\r\n        '</td><td>' +\r\n        person.height +\r\n        ' cm</td><td>' +\r\n        person.mass +\r\n        ' kg</td><td>' +\r\n        Object(_utils_translates__WEBPACK_IMPORTED_MODULE_1__[\"eyeColorTranslate\"])(person.eye_color) +\r\n        '</td><td><button type=\"button\" class=\"btn btn-danger\">Eliminar</button></td></tr>'\r\n    )\r\n  }\r\n\r\n  $('.btn-danger').click(function () {\r\n    var buttonNode = $(this)\r\n\r\n    var rowNode = buttonNode.parent().parent()\r\n\r\n    var id = rowNode.attr('id')\r\n\r\n    var index = Object(_utils_search__WEBPACK_IMPORTED_MODULE_2__[\"searchPeopleIndexByUrl\"])(id, peopleList)\r\n\r\n    if (index !== -1) {\r\n      peopleList.splice(index, 1)\r\n\r\n      Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_0__[\"setLocalList\"])('peopleList', peopleList)\r\n\r\n      rowNode.remove()\r\n    }\r\n  })\r\n}\r\n\r\n/* harmony default export */ __webpack_exports__[\"default\"] = (localStorageController);\r\n\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\")))\n\n//# sourceURL=webpack:///./src/js/controllers/favoritesController.js?");
+
+/***/ }),
+
+/***/ "./src/js/controllers/homeController.js":
+/*!**********************************************!*\
+  !*** ./src/js/controllers/homeController.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nfunction homeController () {\r\n    console.log('Estoy en el home controller')\r\n}\r\n\r\n/* harmony default export */ __webpack_exports__[\"default\"] = (homeController);\n\n//# sourceURL=webpack:///./src/js/controllers/homeController.js?");
+
+/***/ }),
+
 /***/ "./src/js/router.js":
 /*!**************************!*\
   !*** ./src/js/router.js ***!
@@ -240,7 +288,55 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(f
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var crossroads__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! crossroads */ \"./node_modules/crossroads/dist/crossroads.js\");\n/* harmony import */ var crossroads__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crossroads__WEBPACK_IMPORTED_MODULE_0__);\n\n\nfunction router () {\n  $(window).on('hashchange', function () {\n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.parse(window.location.hash)\n  })\n  \n\ncrossroads__WEBPACK_IMPORTED_MODULE_0___default.a.parse(window.location.hash)\n  \n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/home', function () {\n        $('#root').load('./partials/home.html');\n    })\n\n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/characters', function () {\n      $('#root').load('./partials/characters.html');\n  })\n\n  crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/favorites', function () {\n    $('#root').load('./partials/favorites.html');\n  })\n    \n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/contact', function () {\n      $('#root').load('./partials/contact.html');\n    })\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (router);\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\")))\n\n//# sourceURL=webpack:///./src/js/router.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var crossroads__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! crossroads */ \"./node_modules/crossroads/dist/crossroads.js\");\n/* harmony import */ var crossroads__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crossroads__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _controllers_homeController__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./controllers/homeController */ \"./src/js/controllers/homeController.js\");\n/* harmony import */ var _controllers_charactersController__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./controllers/charactersController */ \"./src/js/controllers/charactersController.js\");\n/* harmony import */ var _controllers_favoritesController__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./controllers/favoritesController */ \"./src/js/controllers/favoritesController.js\");\n/* harmony import */ var _controllers_contactController__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./controllers/contactController */ \"./src/js/controllers/contactController.js\");\n\n\n\n\n\n\n\nfunction router () {\n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('/', function () {\n        $('#root').load('./partials/home.html', _controllers_homeController__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n    });\n\n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/characters', function () {\n        $('#root').load('./partials/characters.html', _controllers_charactersController__WEBPACK_IMPORTED_MODULE_2__[\"default\"]);\n    });\n\n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/favorites', function () {\n        $('#root').load('./partials/favorites.html', _controllers_favoritesController__WEBPACK_IMPORTED_MODULE_3__[\"default\"]);\n    });\n\n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.addRoute('#/contact', function () {\n        $('#root').load('./partials/contact.html', _controllers_contactController__WEBPACK_IMPORTED_MODULE_4__[\"default\"]);\n    });\n\n    $(window).on('hashchange', function () {\n        crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.parse(window.location.hash)\n    });\n    \n    crossroads__WEBPACK_IMPORTED_MODULE_0___default.a.parse(window.location.hash);\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (router);\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\")))\n\n//# sourceURL=webpack:///./src/js/router.js?");
+
+/***/ }),
+
+/***/ "./src/js/utils/ajax.js":
+/*!******************************!*\
+  !*** ./src/js/utils/ajax.js ***!
+  \******************************/
+/*! exports provided: getData, postData */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getData\", function() { return getData; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"postData\", function() { return postData; });\nfunction getData (url, cbk) {\n    $.ajax(url)\n      .done(function (data) {\n        cbk(null, data)\n      })\n      .fail(function (error) {\n        cbk(error)\n      })\n  }\n  \n  function postData (url, data, cbk) {\n    $.ajax({\n      url: url,\n      method: 'POST',\n      data: data\n    })\n      .done(function (data) {\n        cbk(null, data)\n      })\n      .fail(function (error) {\n        cbk(error)\n      })\n  }\n  \n  \n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\")))\n\n//# sourceURL=webpack:///./src/js/utils/ajax.js?");
+
+/***/ }),
+
+/***/ "./src/js/utils/localStorage.js":
+/*!**************************************!*\
+  !*** ./src/js/utils/localStorage.js ***!
+  \**************************************/
+/*! exports provided: getLocalList, setLocalList */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getLocalList\", function() { return getLocalList; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"setLocalList\", function() { return setLocalList; });\n/**\n * La función getLocalList permite obtener una lista en formato\n * JavaScript del localStorage. Si la lista no existe devuelve un\n * array vacío.\n * @param { string } key \n * @returns { array }\n */\nfunction getLocalList (key) {\n  if (typeof key === 'string') {\n    var localList = localStorage.getItem(key)\n    if (localList) {\n      var parsedList = JSON.parse(localList)\n      return parsedList\n    } else {\n      return []\n    }\n  }\n}\n\n/**\n * La función setLocalList permite guardar una lista\n * en el localStorage en formato JSON\n * @param { string } key \n * @param { array } list \n */\nfunction setLocalList (key, list) {\n  if (typeof key === 'string' && Array.isArray(list)) {\n    var strList = JSON.stringify(list)\n    localStorage.setItem(key, strList)\n  }\n}\n\n\n\n//# sourceURL=webpack:///./src/js/utils/localStorage.js?");
+
+/***/ }),
+
+/***/ "./src/js/utils/search.js":
+/*!********************************!*\
+  !*** ./src/js/utils/search.js ***!
+  \********************************/
+/*! exports provided: searchPeopleIndexByUrl */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"searchPeopleIndexByUrl\", function() { return searchPeopleIndexByUrl; });\nfunction searchPeopleIndexByUrl (url, peopleList) {\n    var index = -1\n    for (var i = 0; i < peopleList.length; i++) {\n      var person = peopleList[i]\n      if (person.url === url) {\n        index = i\n        break\n      }\n    }\n    return index\n  }\n  \n  \n\n//# sourceURL=webpack:///./src/js/utils/search.js?");
+
+/***/ }),
+
+/***/ "./src/js/utils/translates.js":
+/*!************************************!*\
+  !*** ./src/js/utils/translates.js ***!
+  \************************************/
+/*! exports provided: genderTranslate, eyeColorTranslate */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"genderTranslate\", function() { return genderTranslate; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"eyeColorTranslate\", function() { return eyeColorTranslate; });\nfunction genderTranslate (gender) {\n    switch (gender) {\n      case 'male':\n        return 'Masculino'\n        break\n      case 'female':\n        return 'Femenino'\n        break\n      case 'n/a':\n        return 'No aplica'\n        break\n      default:\n        return 'No se'\n        break\n    }\n  }\n  \n  function eyeColorTranslate (eyeColor) {\n    switch (eyeColor) {\n      case 'blue':\n        return 'Azul'\n        break\n      case 'yellow':\n        return 'Amarillo'\n        break\n      case 'red':\n        return 'Rojo'\n        break\n      default:\n        return eyeColor\n        break\n    }\n  }\n  \n  \n\n//# sourceURL=webpack:///./src/js/utils/translates.js?");
 
 /***/ }),
 
